@@ -29,7 +29,7 @@ func layout() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><link rel=\"stylesheet\" href=\"/static/style.css\"><title>SSR HTMX</title><!-- HTMX --><script src=\"&lt;https://unpkg.com/htmx.org@2.0.3&gt;\" integrity=\"sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq\" crossorigin=\"anonymous\"></script></head><body><header><nav class=\"navbar\"><h1 class=\"logo\">HTMX Page</h1><div class=\"hamburger\"><span></span> <span></span> <span></span></div><nav class=\"nav-links\" id=\"navLinks\"><a>Home</a> <a>Apps</a> <a>Sobre</a></nav></nav></header>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><link rel=\"stylesheet\" href=\"/static/style.css\"><title>SSR HTMX</title><!-- HTMX --><script src=\"/static/htmx.min.js\"></script></head><body><header><nav class=\"navbar\"><h1 class=\"logo\">HTMX Page</h1><div class=\"hamburger\"><span></span> <span></span> <span></span></div><nav class=\"nav-links\" id=\"navLinks\"><a>Home</a> <a>Apps</a> <a>Sobre</a></nav></nav></header>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
