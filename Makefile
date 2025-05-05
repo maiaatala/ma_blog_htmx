@@ -37,3 +37,10 @@ fmt:
 install-templ:
 	go install github.com/a-h/templ/cmd/templ@latest
 
+docker-build:
+	@echo "🐳 Building Docker image locally..."
+	docker build -t ssr-htmx-app .
+
+docker-run:
+	@echo "🚀 Running Docker container..."
+	docker run -p 8080:8080 ssr-htmx-app
