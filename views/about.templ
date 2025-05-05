@@ -1,43 +1,6 @@
 package views
 
 templ About() {
-	<article class="about-article">
-		<h2>Sobre o Projeto</h2>
-		<p>
-			Este site faz parte de uma tese de graduação cujo objetivo foi avaliar
-			o desempenho de diferentes abordagens na construção de aplicações web
-			interativas. Para isso, foram desenvolvidas três versões de uma mesma
-			aplicação — com funcionalidades equivalentes — utilizando stacks e
-			frameworks distintos.
-		</p>
-		<p>
-			A comparação considerou principalmente a performance de carregamento,
-			com base em métricas como Time to Interactive (TTI) e Largest
-			Contentful Paint (LCP). Os testes foram realizados utilizando
-			WebPageTest.
-		</p>
-	</article>
-	<article class="about-article">
-		<h2>Sobre a Implementação</h2>
-		<p>
-			O protótipo inicial foi concebido no Figma, priorizando uma navegação
-			fluida e foco em legibilidade de conteúdo. Todas as três versões do
-			projeto consumem dados de uma <strong>API REST comum</strong>,
-			hospedada e gerenciada via <strong>Railway</strong>, o que garante
-			igualdade no backend para os testes comparativos. O front-end desta
-			versão foi construído de forma responsiva e com foco em
-			acessibilidade, utilizando boas práticas de HTML semântico e CSS
-			modularizado.
-		</p>
-		<p>
-			A aplicação atual é um <i>Server-side render</i> desenvolvida
-			utilizando <strong>Go</strong> e <strong>HTMX</strong>, <strong>Templ</strong>,
-      e <strong>_hyperscript</strong>.
-			O deploy foi realizado com foco em ambientes de testes
-			controlados, garantindo que todas as instâncias rodassem sob as mesmas
-			condições de rede e infraestrutura.
-		</p>
-	</article>
 	<form
 		class="contact-form"
 		hx-post="/api/contact"
@@ -85,9 +48,41 @@ templ About() {
 		</p>
 		<p class="error-msg">Erro ao enviar mensagem.</p>
 	</form>
-	<script>
-  document.body.addEventListener("htmx:error", function(evt) {
-    console.log("🔥 HTMX ERROR", evt);
-  });
-</script>
+	<article class="about-article">
+		<h2>Sobre o Projeto</h2>
+		<p>
+			Este site faz parte de uma tese de graduação cujo objetivo foi avaliar
+			o desempenho de diferentes abordagens na construção de aplicações web
+			interativas. Para isso, foram desenvolvidas três versões de uma mesma
+			aplicação — com funcionalidades equivalentes — utilizando stacks e
+			frameworks distintos.
+		</p>
+		<p>
+			A comparação considerou principalmente a performance de carregamento,
+			com base em métricas como Time to Interactive (TTI) e Largest
+			Contentful Paint (LCP). Os testes foram realizados utilizando
+			WebPageTest.
+		</p>
+	</article>
+	<article class="about-article">
+		<h2>Sobre a Implementação</h2>
+		<p>
+			O protótipo inicial foi concebido no Figma, priorizando uma navegação
+			fluida e foco em legibilidade de conteúdo. Todas as três versões do
+			projeto consumem dados de uma <strong>API REST comum</strong>,
+			hospedada e gerenciada via <strong>Railway</strong>, o que garante
+			igualdade no backend para os testes comparativos. O front-end desta
+			versão foi construído de forma responsiva e com foco em
+			acessibilidade, utilizando boas práticas de HTML semântico e CSS
+			modularizado.
+		</p>
+		<p>
+			A aplicação atual é um <i>Server-side render</i> desenvolvida
+			utilizando <strong>Go</strong> e <strong>HTMX</strong>, <strong>Templ</strong>,
+			e <strong>_hyperscript</strong>.
+			O deploy foi realizado com foco em ambientes de testes
+			controlados, garantindo que todas as instâncias rodassem sob as mesmas
+			condições de rede e infraestrutura.
+		</p>
+	</article>
 }
