@@ -4,24 +4,32 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"ssr-htmx/views"
+	"ssr-htmx/handlers"
+	"ssr-htmx/routes"
 
-	"github.com/a-h/templ"
 	"github.com/joho/godotenv"
 )
 
 func main() {
 	_ = godotenv.Load()
 
-	component := views.Index("Templ!")
-	http.Handle("/", templ.Handler(component))
+	// routes.SetupRoutes()
 
-	// server static files
-	fs := http.FileServer(http.Dir("./static"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
-
+	// fs := http.FileServer(http.Dir("./static"))
 	port := os.Getenv("PORT")
+	if port == "" {
+		port = "3001"
+	}
 	log.Println("Serving on port " + port)
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+
+	mux := http.NewServeMux()
+	routes.SetupRoutes(mux)
+
+	server := &http.Server{
+		Addr:    ":" + port,
+		Handler: handlers.WithNotFoundHandler(mux),
+	}
+
+	log.Fatal(server.ListenAndServe())
 
 }
