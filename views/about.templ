@@ -3,10 +3,91 @@ package views
 templ About() {
 	<article class="about-article">
 		<h2>Sobre o Projeto</h2>
-		<p>Este site faz parte de uma tese de graduação cujo objetivo foi avaliar o desempenho de diferentes abordagens...</p>
+		<p>
+			Este site faz parte de uma tese de graduação cujo objetivo foi avaliar
+			o desempenho de diferentes abordagens na construção de aplicações web
+			interativas. Para isso, foram desenvolvidas três versões de uma mesma
+			aplicação — com funcionalidades equivalentes — utilizando stacks e
+			frameworks distintos.
+		</p>
+		<p>
+			A comparação considerou principalmente a performance de carregamento,
+			com base em métricas como Time to Interactive (TTI) e Largest
+			Contentful Paint (LCP). Os testes foram realizados utilizando
+			WebPageTest.
+		</p>
 	</article>
 	<article class="about-article">
 		<h2>Sobre a Implementação</h2>
-		<p>O protótipo inicial foi concebido no Figma, priorizando uma navegação fluida e foco em legibilidade de conteúdo...</p>
+		<p>
+			O protótipo inicial foi concebido no Figma, priorizando uma navegação
+			fluida e foco em legibilidade de conteúdo. Todas as três versões do
+			projeto consumem dados de uma <strong>API REST comum</strong>,
+			hospedada e gerenciada via <strong>Railway</strong>, o que garante
+			igualdade no backend para os testes comparativos. O front-end desta
+			versão foi construído de forma responsiva e com foco em
+			acessibilidade, utilizando boas práticas de HTML semântico e CSS
+			modularizado.
+		</p>
+		<p>
+			A aplicação atual é um <i>Server-side render</i> desenvolvida
+			utilizando <strong>Go</strong> e <strong>HTMX</strong>, <strong>Templ</strong>,
+      e <strong>_hyperscript</strong>.
+			O deploy foi realizado com foco em ambientes de testes
+			controlados, garantindo que todas as instâncias rodassem sob as mesmas
+			condições de rede e infraestrutura.
+		</p>
 	</article>
+	<form
+		class="contact-form"
+		hx-post="/api/contact"
+		hx-target="this"
+		hx-swap="none"
+		_="on submit remove .show from .error-msg add .loading to #submit-btn
+	    on htmx:error add .show to .error-msg
+	    on htmx:afterRequest remove .loading from #submit-btn 
+      on htmx:afterRequest 
+        remove .loading from #submit-btn
+        if event.detail.xhr.status == 200
+        add .show to .success-msg"
+	>
+		<h2>Formulário de contato</h2>
+		<label for="name">Nome</label>
+		<input
+			type="text"
+			name="Name"
+			id="name"
+			placeholder="Como deseja ser chamado"
+			required
+		/>
+		<label for="email">Email</label>
+		<input
+			type="email"
+			name="Email"
+			id="email"
+			placeholder="Email para resposta"
+			required
+		/>
+		<label for="message">Mensagem</label>
+		<textarea
+			name="Message"
+			id="message"
+			placeholder="Escreva sua mensagem..."
+			rows="5"
+			required
+		></textarea>
+		<button id="submit-btn" type="submit" class="">
+			<span class="when-not-loading">Enviar Mensagem</span>
+			<span class="when-loading" style="display: none;">Enviando...</span>
+		</button>
+		<p class="success-msg">
+			Mensagem enviada com sucesso!
+		</p>
+		<p class="error-msg">Erro ao enviar mensagem.</p>
+	</form>
+	<script>
+  document.body.addEventListener("htmx:error", function(evt) {
+    console.log("🔥 HTMX ERROR", evt);
+  });
+</script>
 }
