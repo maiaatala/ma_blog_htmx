@@ -4,11 +4,13 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"ssr-htmx/views"
+
+	"github.com/a-h/templ"
 	// "github.com/a-h/templ"
 )
 
 func AboutPartialHandler(w http.ResponseWriter, r *http.Request) {
-	err := views.About().Render(r.Context(), w)
+	err := views.Layout(templ.NopComponent, views.About(), templ.NopComponent).Render(r.Context(), w)
 	if err != nil {
 		http.Error(w, "failed to render partial", http.StatusInternalServerError)
 	}
