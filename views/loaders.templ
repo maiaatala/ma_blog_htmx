@@ -1,0 +1,83 @@
+package views
+
+func rs(sz string) string {
+    if sz == "" {
+        return "75px"
+    }
+    return sz
+}
+
+type DefaultLoadingOpt func(p *DefaultLoadingProps)
+
+func WithSize(size string) DefaultLoadingOpt {
+  return func(p *DefaultLoadingProps){
+    p.size = size
+  }
+}
+
+func Loading(opts ...DefaultLoadingOpt) templ.Component {
+  p := &DefaultLoadingProps{
+    size: "75px",
+    }
+
+    for _, opt := range opts {
+      opt(p)
+    }
+
+    return _Loading(*p)
+}
+
+func LoadingOne(opts ...DefaultLoadingOpt) templ.Component {
+  p := &DefaultLoadingProps{
+    size: "75px",
+    }
+
+    for _, opt := range opts {
+      opt(p)
+    }
+
+    return _LoadingOne(*p)
+}
+
+type DefaultLoadingProps struct{
+  size string
+}
+
+templ _Loading(props DefaultLoadingProps) {
+	<div class="loader-svg">
+		<div class="top-layer">
+			<div class="mid">
+				<svg width={props.size} height={props.size} viewBox="0 0 31 31">
+					<polygon fill="transparent" stroke-width="2" points="15,0 30,30 0,30"></polygon>
+				</svg>
+			</div>
+		</div>
+		<div class="bottom-layer">
+			<div class="top">
+				<svg width={props.size} height={props.size} viewBox="0 0 31 31">
+					<polygon fill="transparent" stroke-width="2" points="15,0 30,30 0,30"></polygon>
+				</svg>
+			</div>
+			<div class="bot">
+				<svg width={props.size} height={props.size} viewBox="0 0 31 31">
+					<polygon fill="transparent" stroke-width="2" points="15,0 30,30 0,30"></polygon>
+				</svg>
+			</div>
+		</div>
+	</div>
+}
+
+
+templ _LoadingOne(props DefaultLoadingProps){
+    <div className="loader-svg">
+      <div className="top">
+        <svg width={props.size} height={props.size} viewBox="-4 -1 38 28">
+          <polygon
+            fill="transparent"
+            strokeWidth="2"
+            points="15,0 30,30 0,30"
+          ></polygon>
+        </svg>
+      </div>
+    </div>
+}

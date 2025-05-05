@@ -1,42 +1,12 @@
 package views
 
-templ layout() {
-	<!DOCTYPE html>
-	<html lang="en">
-		<head>
-			<meta charset="UTF-8"/>
-			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-			<link rel="stylesheet" href="/static/style.css"/>
-			<title>SSR HTMX</title>
-			<script src="/static/htmx.min.js" defer></script>
-			<script src="https://unpkg.com/hyperscript.org@0.9.14" defer></script>
-		</head>
-		<body>
-			<header>
-				<nav class="navbar">
-					<h1 class="logo">HTMX Page</h1>
-					<span _="on click from elsewhere remove .open from #navLinks">
-						<div
-							class="hamburger open"
-							_="on click toggle .open on #navLinks"
-						>
-							<span></span>
-							<span></span>
-							<span></span>
-						</div>
-						<nav
-							class="nav-links"
-							id="navLinks"
-							_="on click from me remove .open on me"
-						>
-							<a>Home</a>
-							<a>Apps</a>
-							<a>Sobre</a>
-						</nav>
-					</span>
-				</nav>
-			</header>
-			{ children... }
-		</body>
-	</html>
+templ Layout(left, main, right templ.Component) {
+	<section>
+		<aside>@left
+</aside>
+		<main>@main
+</main>
+		<aside>@right
+</aside>
+	</section>
 }
