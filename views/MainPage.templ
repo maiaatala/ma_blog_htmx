@@ -1,6 +1,36 @@
 package views
 
-templ MainPage(path string) {
+type DefaultMainPageOpt func(p *DefaultMainPageProps)
+
+func WithPath(path string) DefaultMainPageOpt {
+	return func(p *DefaultMainPageProps) {
+		p.children = _partial(path)
+	}
+}
+
+func WithChild(child templ.Component) DefaultMainPageOpt{
+	return func(p *DefaultMainPageProps) {
+		p.children = child
+	}
+}
+
+func MainPage(opts ...DefaultMainPageOpt) templ.Component {
+	p := &DefaultMainPageProps{
+		children: _partial("/posts"),
+	}
+
+	for _, opt := range opts {
+		opt(p)
+	}
+
+	return _MainPage(*p)
+}
+
+type DefaultMainPageProps struct {
+	children templ.Component
+}
+
+templ _MainPage(props DefaultMainPageProps) {
 	<!DOCTYPE html>
 	<html lang="en">
 		<head>
@@ -36,15 +66,19 @@ templ MainPage(path string) {
 					</span>
 				</nav>
 			</header>
-			<main
-				id="content"
-				hx-get={ "/partial" + path }
-				hx-trigger="load"
-				hx-push-url="false"
-				hx-swap="outerHTML"
-			>
-				@Loading(WithSize("75px"))
-			</main>
+      @props.children
 		</body>
 	</html>
+}
+
+templ _partial(path string) {
+	<main
+		id="content"
+		hx-get={ "/partial" + path }
+		hx-trigger="load"
+		hx-push-url="false"
+		hx-swap="outerHTML"
+	>
+		@Loading(WithSize("75px"))
+	</main>
 }

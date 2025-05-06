@@ -12,11 +12,21 @@ import (
 )
 
 func RootHandler(w http.ResponseWriter, r *http.Request) {
-	page := views.MainPage(r.URL.Path)
+	page := views.MainPage(views.WithPath(r.URL.Path))
 
 	err := page.Render(r.Context(), w)
 	if err != nil {
 		http.Error(w, "failed to render root", http.StatusInternalServerError)
+	}
+}
+
+func AboutStatic(w http.ResponseWriter, r *http.Request) {
+	about := views.Layout(templ.NopComponent, views.About(), templ.NopComponent)
+	page := views.MainPage(views.WithChild(about))
+
+	err := page.Render(r.Context(), w)
+	if err != nil {
+		http.Error(w, "failed to render about", http.StatusInternalServerError)
 	}
 }
 
