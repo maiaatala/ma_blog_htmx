@@ -1,0 +1,52 @@
+package views
+
+import (
+	m "ssr-htmx/models"
+)
+
+
+
+templ PostCard(post m.ShortPost) {
+	<article class="postcard-position">
+		<div class="postcard-wrapper">
+			<img src={ templ.URL(post.Image) } alt={ post.Title }/>
+			<div class="metadata">
+				<h3>{ post.Title }</h3>
+				<p class="description">{ post.Description }</p>
+				<div class="author">
+					<p>{ post.CreatedAt }</p>
+					<p>•</p>
+					<p>{ post.Author.Name }</p>
+				</div>
+			</div>
+		</div>
+	</article>
+}
+
+templ Loader(url string) {
+	<div
+		hx-get={ url }
+		hx-trigger="intersect"
+		hx-swap="outerHTML"
+		class="infinite-sentinel"
+	>
+		@Loading(WithSize("75px"))
+	</div>
+}
+
+templ PostList(posts []m.ShortPost, nextURL string) {
+	for _, post := range posts {
+		@PostCard(post)
+	}
+	if nextURL != "" {
+		@Loader(nextURL)
+	}
+}
+
+templ PostsPartial() {
+	<main>
+		<div class="posts-grid">
+			@Loader("/partial/posts?page=1")
+		</div>
+	</main>
+}

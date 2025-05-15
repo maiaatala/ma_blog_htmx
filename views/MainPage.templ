@@ -73,11 +73,11 @@ templ _MainPage(props DefaultMainPageProps) {
 
 templ _partial(path string) {
 	<main
-		id="content"
+		id="content-swap"
 		hx-get={ "/partial" + path }
 		hx-trigger="load"
 		hx-push-url="false"
-		hx-swap="outerHTML"
+		hx-swap="innerHTML"
 	>
 		@Loading(WithSize("75px"))
 	</main>

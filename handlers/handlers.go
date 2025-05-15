@@ -1,11 +1,13 @@
 package handlers
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 	"net/http/httptest"
 	"ssr-htmx/services"
 	"ssr-htmx/views"
+	"strconv"
 
 	"github.com/a-h/templ"
 	// "github.com/a-h/templ"
@@ -57,6 +59,41 @@ func ContactFormHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("Contato enviado com sucesso!"))
+}
+
+func HomeHandler(w http.ResponseWriter, r *http.Request) {
+	home := views.PostsPartial()
+	page := views.MainPage(views.WithChild(home))
+
+	err := page.Render(r.Context(), w)
+	if err != nil {
+		http.Error(w, "failed to render home page", http.StatusInternalServerError)
+	}
+}
+
+func PartialPostsHandler(w http.ResponseWriter, r *http.Request) {
+	pageNum := 1
+	if val := r.URL.Query().Get("page"); val != "" {
+		if n, err := strconv.Atoi(val); err == nil {
+			pageNum = n
+		}
+	}
+
+	data, err := services.FetchPosts(pageNum)
+	if err != nil {
+		http.Error(w, "Failed to load posts", http.StatusBadGateway)
+		return
+	}
+
+	next := ""
+	if len(data.Items) > 0 {
+		next = "/partial/posts?page=" + fmt.Sprint(pageNum+1)
+	}
+
+	err = views.PostList(data.Items, next).Render(r.Context(), w)
+	if err != nil {
+		http.Error(w, "Failed to render posts", http.StatusInternalServerError)
+	}
 }
 
 func NotFoundHandler(w http.ResponseWriter, r *http.Request) {

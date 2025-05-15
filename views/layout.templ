@@ -1,12 +1,15 @@
 package views
 
 templ Layout(left, main, right templ.Component) {
-	<section>
-		<aside>@left
-</aside>
-		<main>@main
-</main>
-		<aside>@right
-</aside>
+	<section id="content-swap">
+		<aside>
+			@left
+		</aside>
+		<main>
+			@main
+		</main>
+		<aside>
+			@right
+		</aside>
 	</section>
 }
