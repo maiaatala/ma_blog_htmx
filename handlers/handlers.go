@@ -62,8 +62,21 @@ func ContactFormHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	home := views.PostsPartial()
-	page := views.MainPage(views.WithChild(home))
+	pageNum := 1
+
+	data, _err := services.FetchPosts(pageNum)
+	if _err != nil {
+		http.Error(w, "Failed to load posts", http.StatusBadGateway)
+		return
+	}
+
+	next := ""
+	if len(data.Items) > 0 {
+		next = "/partial/posts?page=" + fmt.Sprint(pageNum+1)
+	}
+
+	homePosts := views.PostList(data.Items, next)
+	page := views.MainPage(views.WithPostChild(homePosts))
 
 	err := page.Render(r.Context(), w)
 	if err != nil {

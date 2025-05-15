@@ -13,6 +13,18 @@ func WithChild(child templ.Component) DefaultMainPageOpt {
 		p.children = child
 	}
 }
+templ _postsPartial(cont templ.Component) {
+	<main id="content-swap">
+		<div class="posts-grid">
+			@cont
+		</div>
+	</main>
+}
+func WithPostChild(child templ.Component) DefaultMainPageOpt{
+  return func(p *DefaultMainPageProps){
+    p.children = _postsPartial(child)
+  }
+}
 
 func MainPage(opts ...DefaultMainPageOpt) templ.Component {
 	p := &DefaultMainPageProps{
