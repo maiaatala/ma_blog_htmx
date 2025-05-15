@@ -8,7 +8,7 @@ func WithPath(path string) DefaultMainPageOpt {
 	}
 }
 
-func WithChild(child templ.Component) DefaultMainPageOpt{
+func WithChild(child templ.Component) DefaultMainPageOpt {
 	return func(p *DefaultMainPageProps) {
 		p.children = child
 	}
@@ -59,14 +59,26 @@ templ _MainPage(props DefaultMainPageProps) {
 							id="navLinks"
 							_="on click from me remove .open on me"
 						>
-							<button>Home</button>
+							<button
+								hx-get="/partial/"
+								hx-target="#content-swap"
+								hx-swap="outerHTML"
+                hx-push-url="/"
+							>
+								Home
+							</button>
 							<button>Apps</button>
-							<button>Sobre</button>
+							<button
+								hx-get="/partial/about"
+								hx-target="#content-swap"
+								hx-swap="innerHTML"
+                hx-push-url="/about2"
+							>Sobre</button>
 						</nav>
 					</span>
 				</nav>
 			</header>
-      @props.children
+			@props.children
 		</body>
 	</html>
 }

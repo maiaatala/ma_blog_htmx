@@ -71,7 +71,14 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func PartialPostsHandler(w http.ResponseWriter, r *http.Request) {
+func PartialHome(w http.ResponseWriter, r *http.Request) {
+	err := views.PostsPartial().Render(r.Context(), w)
+	if err != nil {
+		http.Error(w, "failed to home content", http.StatusInternalServerError)
+	}
+}
+
+func GetPostsHandler(w http.ResponseWriter, r *http.Request) {
 	pageNum := 1
 	if val := r.URL.Query().Get("page"); val != "" {
 		if n, err := strconv.Atoi(val); err == nil {

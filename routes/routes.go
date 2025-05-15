@@ -13,5 +13,6 @@ func SetupRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("/partial/about", handlers.AboutPartialHandler)
 	mux.HandleFunc("/api/contact", handlers.ContactFormHandler)
 	mux.HandleFunc("/", handlers.HomeHandler)
-	mux.HandleFunc("/partial/posts", handlers.PartialPostsHandler)
+	mux.HandleFunc("/partial/posts", handlers.GetPostsHandler)
+	mux.HandleFunc("/partial/", handlers.PartialHome)
 }

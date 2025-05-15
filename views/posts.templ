@@ -44,7 +44,7 @@ templ PostList(posts []m.ShortPost, nextURL string) {
 }
 
 templ PostsPartial() {
-	<main>
+	<main id="content-swap">
 		<div class="posts-grid">
 			@Loader("/partial/posts?page=1")
 		</div>
