@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"ssr-htmx/handlers"
-	"ssr-htmx/routes"
+	"ssrhtmx/handlers"
+	"ssrhtmx/routes"
 
 	"github.com/joho/godotenv"
 )

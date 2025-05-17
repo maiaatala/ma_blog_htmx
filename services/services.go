@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"ssr-htmx/models"
+	"ssrhtmx/models"
 )
 
 func PostContactForm(body []byte) error {

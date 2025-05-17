@@ -1,4 +1,4 @@
-module ssr-htmx
+module ssrhtmx
 
 go 1.24.2
 

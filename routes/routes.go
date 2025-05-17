@@ -2,7 +2,7 @@ package routes
 
 import (
 	"net/http"
-	"ssr-htmx/handlers"
+	"ssrhtmx/handlers"
 )
 
 func SetupRoutes(mux *http.ServeMux) {

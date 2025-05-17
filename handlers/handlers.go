@@ -5,8 +5,8 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
-	"ssr-htmx/services"
-	"ssr-htmx/views"
+	"ssrhtmx/services"
+	"ssrhtmx/views"
 	"strconv"
 
 	"github.com/a-h/templ"
