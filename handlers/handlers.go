@@ -8,6 +8,8 @@ import (
 	"ssrhtmx/services"
 	"ssrhtmx/views"
 	"strconv"
+	"strings"
+	"time"
 
 	"github.com/a-h/templ"
 	// "github.com/a-h/templ"
@@ -113,6 +115,46 @@ func GetPostsHandler(w http.ResponseWriter, r *http.Request) {
 	err = views.PostList(data.Items, next).Render(r.Context(), w)
 	if err != nil {
 		http.Error(w, "Failed to render posts", http.StatusInternalServerError)
+	}
+}
+
+func PostPartialHandler(w http.ResponseWriter, r *http.Request) {
+	id := strings.TrimPrefix(r.URL.Path, "/partial/post/")
+	post, err := services.FetchPostByID(id)
+	parsed, err := time.Parse(time.RFC3339, post.UpdatedAt)
+	if err == nil {
+		post.UpdatedAt = parsed.Format("02/01/2006") // formato pt-BR: dd/mm/aaaa
+	}
+
+	if err != nil {
+		http.Error(w, "Post not found", http.StatusNotFound)
+		return
+	}
+
+	err = views.PostDetailedPartial(*post).Render(r.Context(), w)
+	if err != nil {
+		http.Error(w, "Failed to render post partial", http.StatusInternalServerError)
+	}
+}
+
+func PostPageHandler(w http.ResponseWriter, r *http.Request) {
+	id := strings.TrimPrefix(r.URL.Path, "/post/")
+	post, err := services.FetchPostByID(id)
+	parsed, err := time.Parse(time.RFC3339, post.UpdatedAt)
+	if err == nil {
+		post.UpdatedAt = parsed.Format("02/01/2006") // formato pt-BR: dd/mm/aaaa
+	}
+	if err != nil {
+		http.Error(w, "Post not found", http.StatusNotFound)
+		return
+	}
+
+	content := views.PostDetailedPartial(*post)
+	page := views.MainPage(views.WithChild(content))
+
+	err = page.Render(r.Context(), w)
+	if err != nil {
+		http.Error(w, "Failed to render post page", http.StatusInternalServerError)
 	}
 }
 

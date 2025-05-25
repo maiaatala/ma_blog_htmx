@@ -1,0 +1,43 @@
+package views
+
+import "ssrhtmx/models"
+
+templ TagBadge(tag string) {
+	<p class="tag-badge">
+		{ tag }
+	</p>
+}
+
+templ PostDetailedPartial(post models.Post) {
+	<div id="content-swap">
+		<img class="postimg" src={ templ.URL(post.Image) } alt={ post.Title }/>
+		<section class="post-detail">
+			<aside>
+				<div class="tag-container">
+					for _, tag := range post.Tags {
+						@TagBadge(tag)
+					}
+				</div>
+			</aside>
+			<main>
+        <article class="post-wrapper">
+          <div class="post-header">
+            <h1>{post.Title}</h1>
+            <div class="post-author-info">
+              <img src={post.Author.Photo} alt={post.Author.Name} class="post-author-photo" />
+              <h3 class="post-author-text">
+                {post.Author.Name} • {post.UpdatedAt}
+              </h3>
+            </div>
+            <p class="post-description">{post.Description}</p>
+          </div>
+          <article id="post-content" class="post-content">
+            @templ.Raw(post.Content)
+          </article>
+        </article>
+
+			</main>
+			<aside></aside>
+		</section>
+	</div>
+}

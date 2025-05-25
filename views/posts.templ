@@ -1,13 +1,20 @@
 package views
 
 import (
+"fmt"
 	m "ssrhtmx/models"
 )
 
 
 
 templ PostCard(post m.ShortPost) {
-	<article class="postcard-position">
+	<article 
+    class="postcard-position"
+    hx-get={fmt.Sprintf("/partial/post/%s", post.ID)}
+    hx-target="#content-swap" 
+    hx-swap="outerHTML"
+    hx-push-url={fmt.Sprintf("/post/%s", post.ID)}
+  >
 		<div class="postcard-wrapper">
 			<img src={ templ.URL(post.Image) } alt={ post.Title }/>
 			<div class="metadata">
