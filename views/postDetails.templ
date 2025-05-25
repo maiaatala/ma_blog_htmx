@@ -1,6 +1,9 @@
 package views
 
-import "ssrhtmx/models"
+import (
+	"fmt"
+	"ssrhtmx/models"
+)
 
 templ TagBadge(tag string) {
 	<p class="tag-badge">
@@ -20,24 +23,64 @@ templ PostDetailedPartial(post models.Post) {
 				</div>
 			</aside>
 			<main>
-        <article class="post-wrapper">
-          <div class="post-header">
-            <h1>{post.Title}</h1>
-            <div class="post-author-info">
-              <img src={post.Author.Photo} alt={post.Author.Name} class="post-author-photo" />
-              <h3 class="post-author-text">
-                {post.Author.Name} • {post.UpdatedAt}
-              </h3>
-            </div>
-            <p class="post-description">{post.Description}</p>
-          </div>
-          <article id="post-content" class="post-content">
-            @templ.Raw(post.Content)
-          </article>
-        </article>
-
+				<article class="post-wrapper">
+					<div class="post-header">
+						<h1>{ post.Title }</h1>
+						<div class="post-author-info">
+							<img src={ post.Author.Photo } alt={ post.Author.Name } class="post-author-photo"/>
+							<h3 class="post-author-text">
+								{ post.Author.Name } • { post.UpdatedAt }
+							</h3>
+						</div>
+						<p class="post-description">{ post.Description }</p>
+					</div>
+					<article id="post-content" class="post-content">
+						@templ.Raw(post.Content)
+					</article>
+				</article>
+				<article
+					id="comment-root"
+          class="comment-root"
+					hx-get={ fmt.Sprintf("/partial/comments?postId=%s", post.ID) }
+					hx-trigger="load"
+					hx-target="#comment-root"
+					hx-swap="innerHTML"
+				>
+					@LoadingOne(WithSize("20px"))
+				</article>
 			</main>
 			<aside></aside>
 		</section>
 	</div>
+}
+
+templ OneComment(comment models.Comment, postId string, level int) {
+	<article class="comment-wrapper" style={ "margin-left: " + fmt.Sprintf("%dpx", level*20) }>
+		<div class="comment">
+			<div class="comment-metadata">
+				<img src={ templ.URL(comment.Author.Photo) } alt={ comment.Author.Name }/>
+				<h4>{ comment.Author.Name } • <span>{ comment.CreatedAt }</span></h4>
+			</div>
+			<p>{ comment.Content }</p>
+			if comment.HasReplies {
+				<button
+					hx-get={ "/partial/comments?postId=" + postId + "&parentCommentId=" + comment.ID }
+					hx-target={ "#replies-" + comment.ID }
+					hx-swap="innerHTML"
+          _="on click remove me"
+				>
+					+ Ver Respostas
+				</button>
+			}
+		</div>
+		<div id={ "replies-" + comment.ID } class="replies">
+			<!-- Respostas vão entrar aqui -->
+		</div>
+	</article>
+}
+
+templ CommentList(comments []models.Comment, postId string, level int) {
+	for _, c := range comments {
+		@OneComment(c, postId, level)
+	}
 }

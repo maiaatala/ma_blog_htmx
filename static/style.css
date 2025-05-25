@@ -554,6 +554,74 @@ aside {
     width: 100%;
     background: #3b4252;
   }
+
+  .comment-root {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 16px;
+    .comment-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      border-left: 3px solid #4c566a;
+      padding-left: 10px;
+
+      .comment {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+
+        .comment-metadata {
+          display: flex;
+          flex-direction: row;
+          gap: 10px;
+          justify-content: flex-start;
+          align-items: center;
+
+          img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+          }
+          h4 {
+            font-weight: 700;
+            font-size: 16px;
+            color: #81a1c1;
+            span {
+              color: #5e81ac;
+            }
+          }
+        }
+
+        p {
+          font-weight: 400;
+          font-size: 1.1rem;
+          color: #d8dee9;
+        }
+
+        button {
+          background: transparent;
+          width: fit-content;
+          border: none;
+          font-weight: 600;
+          font-size: 1rem;
+          color: #ebcb8b;
+          cursor: pointer;
+          padding: 3px 4px;
+          border-radius: 6px;
+          transition: all 0.3s;
+        }
+
+        button:hover {
+          background: #ebcb8b;
+          color: #2e3440;
+          font-weight: 600;
+        }
+      }
+    }
+  }
 }
 
 /* region responsive */

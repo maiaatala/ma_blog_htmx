@@ -158,6 +158,28 @@ func PostPageHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func PartialCommentsHandler(w http.ResponseWriter, r *http.Request) {
+	postId := r.URL.Query().Get("postId")
+	parentId := r.URL.Query().Get("parentCommentId") // pode estar vazio
+
+	comments, err := services.FetchComments(postId, parentId)
+	if err != nil {
+		http.Error(w, "Failed to load comments", http.StatusInternalServerError)
+		return
+	}
+
+	// nível +1 se for resposta
+	level := 0
+	if parentId != "" {
+		level = 1
+	}
+
+	err = views.CommentList(comments, postId, level).Render(r.Context(), w)
+	if err != nil {
+		http.Error(w, "Failed to render comments", http.StatusInternalServerError)
+	}
+}
+
 func NotFoundHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotFound)
 	err := views.NotFound().Render(r.Context(), w)

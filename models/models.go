@@ -33,3 +33,16 @@ type Post struct {
 	Author      Author   `json:"author"`
 	Tags        []string `json:"tags"`
 }
+
+type Comment struct {
+	ID              string  `json:"id"`
+	PostID          string  `json:"postId"`
+	ParentCommentID *string `json:"parentCommentId,omitempty"`
+	CreatedAt       string  `json:"createdAt"`
+	Content         string  `json:"content"`
+	HasReplies      bool    `json:"hasReplies"`
+	Author          struct {
+		Name  string `json:"name"`
+		Photo string `json:"photo"`
+	} `json:"author"`
+}

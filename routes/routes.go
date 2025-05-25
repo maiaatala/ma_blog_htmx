@@ -16,5 +16,6 @@ func SetupRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("/partial/post/", handlers.PostPartialHandler)
 	mux.HandleFunc("/partial/posts", handlers.GetPostsHandler)
 	mux.HandleFunc("/partial/", handlers.PartialHome)
+	mux.HandleFunc("/partial/comments", handlers.PartialCommentsHandler)
 	mux.HandleFunc("/", handlers.HomeHandler)
 }
