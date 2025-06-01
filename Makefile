@@ -2,6 +2,9 @@
 APP_NAME=ssr-blog
 PROXY_PORT=8080
 GO_PORT=3001
+SCSS_SRC = static/style.scss
+CSS_OUT = static/style.css
+CSS_MIN = static/style.min.css
 
 # Runs the dev server with Templ + Go and auto-reload
 dev:
@@ -23,10 +26,14 @@ run:
 	@echo "🎯 Running app directly at http://localhost:$(GO_PORT)"
 	go run .
 
+minify:
+	sass static/style.scss | cleancss -o static/style.min.css
+
 # Clean Templ-generated files
 clean:
 	@echo "🧹 Cleaning up..."
 	find . -type f -name "*_templ.go" -delete
+	rm -f $(CSS_OUT) $(CSS_MIN)
 
 # Format all Go code
 fmt:
